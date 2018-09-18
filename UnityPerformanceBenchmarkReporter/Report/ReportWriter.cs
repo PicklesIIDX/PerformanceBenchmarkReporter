@@ -188,7 +188,7 @@ namespace UnityPerformanceBenchmarkReporter.Report
         private static void WriteStatMethodButtons(StreamWriter streamWriter)
         {
             streamWriter.WriteLine(
-                "<tr><td><div class=\"buttonheader\">Select statistical method</div><div class=\"buttondiv\"><button id=\"MinButton\" class=\"button\">Min</button></div>&nbsp<div class=\"buttondiv\"><button id=\"MaxButton\" class=\"button\">Max</button></div>&nbsp<div class=\"buttondiv\"><button id=\"MedianButton\" class=\"initialbutton\">Median</button></div>&nbsp<div class=\"buttondiv\"><button id=\"AverageButton\" class=\"button\">Average</button></div></td></tr>");
+                "<tr><td><div class=\"buttonheader\">Select statistical method below.</div><div class=\"buttondiv\"><button id=\"MinButton\" class=\"button\">Min</button></div>&nbsp<div class=\"buttondiv\"><button id=\"MaxButton\" class=\"button\">Max</button></div>&nbsp<div class=\"buttondiv\"><button id=\"MedianButton\" class=\"button\">Median</button></div>&nbsp<div class=\"buttondiv\"><button id=\"AverageButton\" class=\"button\">Average</button></div><div class=\"buttonheader\">Refresh page to reset aggregation to the default for each metric as specified in the first or baseline result.</div></td></tr>");
         }
 
         private void WriteShowFailedTestsCheckbox(StreamWriter streamWriter)
@@ -533,7 +533,7 @@ namespace UnityPerformanceBenchmarkReporter.Report
             var noTestRegressions = IsNoTestFailures(resultsForThisTest);
             rw.WriteLine("<tr {0}>", noTestRegressions ? "class=\"nofailures\"" : string.Empty);
             rw.WriteLine(
-                "<td class=\"testnamecell\"><div class=\"testname {0}\"><p><h5>Test Name:</h5></p><p><h3>{1}</h3></p></div></td></tr>",
+                "<td class=\"testnamecell\"><div class=\"testname {0}\"><p><h3>{1}</h3></p></div></td></tr>",
                 noTestRegressions ? "nofailures" : string.Empty,
                 distinctTestName);
             rw.WriteLine(noTestRegressions ? "<tr class=\"nofailures\"><td></td></tr>" : "<tr><td></td></tr>");
