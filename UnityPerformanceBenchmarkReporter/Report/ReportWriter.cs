@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using UnityPerformanceBenchmarkReporter.Entities;
 
 namespace UnityPerformanceBenchmarkReporter.Report
@@ -46,6 +47,8 @@ namespace UnityPerformanceBenchmarkReporter.Report
         {
             if (results != null && results.Length > 0)
             {
+                Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
                 thisSigFig = sigFig;
                 thisHasBenchmarkResults = hasBenchmarkResults;
                 perfTestRunResults = results;
