@@ -16,7 +16,10 @@ namespace UnityPerformanceBenchmarkReporter.Entities
         public double Sum;
         public int Zeroes;
         public int SampleCount;
-        public SampleGroupDefinition Definition;
+
+        public string Name;
+        public bool IncreaseIsBetter;
+        // public SampleGroupDefinition Definition;
     }
 
     [Serializable]

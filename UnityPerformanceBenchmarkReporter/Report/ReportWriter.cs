@@ -315,7 +315,7 @@ namespace UnityPerformanceBenchmarkReporter.Report
             resultColors.Append("],");
             rw.WriteLine(resultColors.ToString());
             rw.WriteLine("borderWidth: 1,");
-            rw.WriteLine("label: \"" + (sampleUnit.Equals("None") ? distinctSampleGroupName : sampleUnit) + "\",");
+            rw.WriteLine("label: \"" + (sampleUnit.Equals("None")? distinctSampleGroupName : sampleUnit) + "\",");
             rw.WriteLine("legend: {");
             rw.WriteLine("display: true,");
             rw.WriteLine("},");
@@ -801,6 +801,10 @@ namespace UnityPerformanceBenchmarkReporter.Report
             {
                 sampleUnit = resultsForThisTest.First().SampleGroupResults
                     .First(sg => ScrubStringForSafeForVariableUse(sg.SampleGroupName) == sampleGroupName).SampleUnit;
+                if (sampleUnit == null)
+                {
+                    sampleUnit = "";
+                }
             }
 
             return sampleUnit;

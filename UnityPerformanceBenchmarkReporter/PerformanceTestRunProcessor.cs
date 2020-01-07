@@ -24,8 +24,8 @@ namespace UnityPerformanceBenchmarkReporter
                 var performanceTestResult = new TestResult
                 {
                     TestName = testName,
-                    TestCategories = performanceTestRun.Results.First(r => r.TestName == testName).TestCategories,
-                    TestVersion = performanceTestRun.Results.First(r => r.TestName == testName).TestVersion,
+                    TestCategories = performanceTestRun.Results.First(r => r.Name == testName).Categories,
+                    TestVersion = performanceTestRun.Results.First(r => r.Name == testName).Version,
                     State = (int) TestState.Success,
                     SampleGroupResults = new List<SampleGroupResult>()
                 };
@@ -33,12 +33,12 @@ namespace UnityPerformanceBenchmarkReporter
                 {
                     var sampleGroupResult = new SampleGroupResult
                     {
-                        SampleGroupName = sampleGroup.Definition.Name,
-                        SampleUnit = sampleGroup.Definition.SampleUnit.ToString(),
-                        IncreaseIsBetter = sampleGroup.Definition.IncreaseIsBetter,
-                        Threshold = sampleGroup.Definition.Threshold,
-                        AggregationType = sampleGroup.Definition.AggregationType.ToString(),
-                        Percentile = sampleGroup.Definition.Percentile,
+                        SampleGroupName = sampleGroup.Name,
+                        // SampleUnit = sampleGroup.Definition.SampleUnit.ToString(),
+                        IncreaseIsBetter = sampleGroup.IncreaseIsBetter,
+                        // Threshold = sampleGroup.Definition.Threshold,
+                        // AggregationType = sampleGroup.Definition.AggregationType.ToString(),
+                        // Percentile = sampleGroup.Definition.Percentile,
                         Min = sampleGroup.Min,
                         Max = sampleGroup.Max,
                         Median = sampleGroup.Median,
@@ -87,18 +87,18 @@ namespace UnityPerformanceBenchmarkReporter
         public Dictionary<string, List<SampleGroup>> MergeTestExecutions(PerformanceTestRun performanceTestRun)
         {
             var mergedTestExecutions = new Dictionary<string, List<SampleGroup>>();
-            var testNames = performanceTestRun.Results.Select(te => te.TestName).Distinct().ToList();
+            var testNames = performanceTestRun.Results.Select(te => te.Name).Distinct().ToList();
             foreach (var testName in testNames)
             {
-                var executions = performanceTestRun.Results.Where(te => te.TestName == testName);
+                var executions = performanceTestRun.Results.Where(te => te.Name == testName);
                 var sampleGroups = new List<SampleGroup>();
                 foreach (var execution in executions)
                 {
                     foreach (var sampleGroup in execution.SampleGroups)
                     {
-                        if (sampleGroups.Any(sg => sg.Definition.Name == sampleGroup.Definition.Name))
+                        if (sampleGroups.Any(sg => sg.Name == sampleGroup.Name))
                         {
-                            sampleGroups.First(sg => sg.Definition.Name == sampleGroup.Definition.Name).Samples
+                            sampleGroups.First(sg => sg.Name == sampleGroup.Name).Samples
                                 .AddRange(sampleGroup.Samples);
                         }
                         else
@@ -115,28 +115,30 @@ namespace UnityPerformanceBenchmarkReporter
 
         private double GetAggregatedSampleValue(SampleGroup sampleGroup)
         {
-            double aggregatedSampleValue;
-            switch (sampleGroup.Definition.AggregationType)
-            {
-                case AggregationType.Average:
-                    aggregatedSampleValue = sampleGroup.Average;
-                    break;
-                case AggregationType.Min:
-                    aggregatedSampleValue = sampleGroup.Min;
-                    break;
-                case AggregationType.Max:
-                    aggregatedSampleValue = sampleGroup.Max;
-                    break;
-                case AggregationType.Median:
-                    aggregatedSampleValue = sampleGroup.Median;
-                    break;
-                case AggregationType.Percentile:
-                    aggregatedSampleValue = sampleGroup.PercentileValue;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(string.Format("Unhandled aggregation type {0}", sampleGroup.Definition.AggregationType));
-            }
-            return aggregatedSampleValue;
+            return sampleGroup.Average;
+            
+            // double aggregatedSampleValue;
+            // switch (sampleGroup.Definition.AggregationType)
+            // {
+            //     case AggregationType.Average:
+            //         aggregatedSampleValue = sampleGroup.Average;
+            //         break;
+            //     case AggregationType.Min:
+            //         aggregatedSampleValue = sampleGroup.Min;
+            //         break;
+            //     case AggregationType.Max:
+            //         aggregatedSampleValue = sampleGroup.Max;
+            //         break;
+            //     case AggregationType.Median:
+            //         aggregatedSampleValue = sampleGroup.Median;
+            //         break;
+            //     case AggregationType.Percentile:
+            //         aggregatedSampleValue = sampleGroup.PercentileValue;
+            //         break;
+            //     default:
+            //         throw new ArgumentOutOfRangeException(string.Format("Unhandled aggregation type {0}", sampleGroup.Definition.AggregationType));
+            // }
+            // return aggregatedSampleValue;
         }
 
         private MeasurementResult DeterminePerformanceResult(SampleGroupResult sampleGroup, uint sigFig)

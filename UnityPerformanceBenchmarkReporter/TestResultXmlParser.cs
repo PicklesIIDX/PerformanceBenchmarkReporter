@@ -172,7 +172,7 @@ namespace UnityPerformanceBenchmarkReporter
 
         private string GetJsonFromHashtag(string tag, string line)
         {
-            if (!line.Contains($"##{tag}:")) return null;
+            if (!line.Contains($"##{tag}2:")) return null;
             var jsonStart = line.IndexOf('{');
             var openBrackets = 0;
             var stringIndex = jsonStart;
