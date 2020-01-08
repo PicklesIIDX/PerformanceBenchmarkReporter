@@ -181,14 +181,14 @@ namespace UnityPerformanceBenchmarkReporter
                 TestSuite = runResults.TestSuite,
                 StartTime =
                     new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(
-                        runResults.StartTime),
+                        runResults.Date),
                 TestResults = testResults,
-                PlayerSystemInfo = runResults.PlayerSystemInfo,
-                EditorVersion = runResults.EditorVersion,
+                PlayerSystemInfo = runResults.Hardware,
+                EditorVersion = runResults.Editor,
                 BuildSettings = runResults.BuildSettings,
                 ScreenSettings = runResults.ScreenSettings,
                 QualitySettings = runResults.QualitySettings,
-                PlayerSettings = runResults.PlayerSettings
+                PlayerSettings = runResults.Player
             };
             return performanceTestRunResult;
         }

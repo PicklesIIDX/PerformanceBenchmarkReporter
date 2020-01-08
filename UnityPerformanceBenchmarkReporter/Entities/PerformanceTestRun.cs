@@ -6,14 +6,14 @@ namespace UnityPerformanceBenchmarkReporter.Entities
     [Serializable]
     public class PerformanceTestRun
     {
-        public PlayerSystemInfo PlayerSystemInfo;
-        public EditorVersion EditorVersion;
+        public PlayerSystemInfo Hardware;
+        public EditorVersion Editor;
         public BuildSettings BuildSettings;
         public ScreenSettings ScreenSettings;
         public QualitySettings QualitySettings;
-        public PlayerSettings PlayerSettings;
+        public PlayerSettings Player;
         public string TestSuite;
-        public double StartTime;
+        public double Date;
         public double EndTime;
         public List<PerformanceTestResult> Results  = new List<PerformanceTestResult>();
     }
@@ -27,7 +27,7 @@ namespace UnityPerformanceBenchmarkReporter.Entities
         public string ProcessorType;
         public int ProcessorCount;
         public string GraphicsDeviceName;
-        public int SystemMemorySize;
+        public int SystemMemorySizeMB;
         public string XrModel;
         public string XrDevice;
     }
@@ -35,10 +35,10 @@ namespace UnityPerformanceBenchmarkReporter.Entities
     [Serializable]
     public class EditorVersion
     {
-        public string FullVersion;
-        public int DateSeconds;
+        public string Version;
+        public int Date;
         public string Branch;
-        public int RevisionValue;
+        public string Changeset;
     }
 
     [Serializable]
@@ -72,20 +72,32 @@ namespace UnityPerformanceBenchmarkReporter.Entities
     [Serializable]
     public class PlayerSettings
     {
+        public string Platform;
+        public bool Development;
+        public int ScreenWidth;
+        public int ScreenHeight;
+        public int ScreenRefreshRate;
+        public bool Fullscreen;
+        public int Vsync;
+        public int AntiAliasing;
+        public string ColorSpace;
+        public string AnisotropicFiltering;
+        public string BlendWeights;
+        public string GraphicsApi;
+        public bool Batchmode;
+        public string RenderThreadingMode;
+        public bool GpuSkinning;
         public string ScriptingBackend;
+        public string AndroidTargetSdkVersion;
+        public string AndroidApiLevelAuto;
+        public string AndroidBuildSystem;
+        public string BuildTarget;
+        public string StereoRenderingPath;
         public string ScriptingRuntimeVersion;
         public bool VrSupported;
         public bool MtRendering;
         public bool GraphicsJobs;
-        public bool GpuSkinning;
-        public string GraphicsApi;
-        //public string Batchmode; TODO
-        //public int StaticBatching; TODO
-        //public int DynamicBatching; TODO
-        public string StereoRenderingPath;
-        public string RenderThreadingMode;
         public string AndroidMinimumSdkVersion;
-        public string AndroidTargetSdkVersion;
         public List<string> EnabledXrTargets;
     }
 }

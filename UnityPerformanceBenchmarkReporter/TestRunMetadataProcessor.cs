@@ -386,7 +386,7 @@ namespace UnityPerformanceBenchmarkReporter
         {
             foreach (var performanceTestRun in performanceTestRuns)
             {
-                isVrSupported = isVrSupported || performanceTestRun.PlayerSettings?.EnabledXrTargets != null && performanceTestRun.PlayerSettings.EnabledXrTargets.Any();
+                isVrSupported = isVrSupported || performanceTestRun.Player?.EnabledXrTargets != null && performanceTestRun.Player.EnabledXrTargets.Any();
             }
         }
 

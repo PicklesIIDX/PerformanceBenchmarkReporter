@@ -88,7 +88,7 @@ namespace UnityPerformanceBenchmarkReporter
                 var elements = element.Value.Split('\n');
                 if(elements.Any(e => e.Length > 0 && e.Substring(0, 2).Equals("##")))
                 {
-                    var line = elements.First(e => e.Length > 0 && e.Substring(0, 2).Equals("##"));
+                    var line = elements.First(e => e.Length > 0 && e.Substring(0, 24).Equals("##performancetestruninfo"));
 
                     var json = GetJsonFromHashtag("performancetestruninfo", line);
 
@@ -99,15 +99,15 @@ namespace UnityPerformanceBenchmarkReporter
                         if (result != null)
                         {
                             run.TestSuite = result.TestSuite;
-                            run.EditorVersion = result.EditorVersion;
+                            run.Editor = result.Editor;
                             run.QualitySettings = result.QualitySettings;
                             run.ScreenSettings = result.ScreenSettings;
                             run.BuildSettings = result.BuildSettings;
-                            run.PlayerSettings = result.PlayerSettings;
-                            run.PlayerSystemInfo = result.PlayerSystemInfo;
-                            run.StartTime = result.StartTime;
+                            run.Player = result.Player;
+                            run.Hardware = result.Hardware;
+                            run.Date = result.Date;
                             // @TODO fix end time, does it matter for now?
-                            run.EndTime = run.StartTime;
+                            run.EndTime = run.Date;
                         }
                     }
                     // Unhappy case where we couldn't find a performancetestruninfo object
@@ -121,9 +121,9 @@ namespace UnityPerformanceBenchmarkReporter
                         if (json != null)
                         {
                             var result = TryDeserializePerformanceTestRunJsonObject(json);
-                            run.StartTime = result.StartTime;
+                            run.Date = result.Date;
                             // @TODO fix end time, does it matter for now?
-                            run.EndTime = run.StartTime;
+                            run.EndTime = run.Date;
                         }
                     }
                 } 
