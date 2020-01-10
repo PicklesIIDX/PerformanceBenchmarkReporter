@@ -53,10 +53,16 @@ namespace UnityPerformanceBenchmarkReporter
                 throw new Exception("The xmlDocument passed to the TryParseXmlToPerformanceTestRun method does not have any \'ouput\' xml tags needed for correct parsing.");
             }
 
+            // pull run metadata from the xml attributes
             var run = new PerformanceTestRun();
             DeserializeTestResults(output, run);
             DeserializeMetadata(output, run);
-            
+            XElement[] testCase = xmlDocument.Descendants("test-case").ToArray();
+            string endTime = testCase[0].Attribute("end-time")?.Value;
+            // Why are these different?
+            run.Date = endTime;
+            run.EndTime = endTime;
+
             return run;
         }
 
@@ -85,46 +91,24 @@ namespace UnityPerformanceBenchmarkReporter
         {
             foreach (var element in output)
             {
-                var elements = element.Value.Split('\n');
-                if(elements.Any(e => e.Length > 0 && e.Substring(0, 2).Equals("##")))
+                foreach (var line in element.Value.Split('\n'))
                 {
-                    var line = elements.First(e => e.Length > 0 && e.Substring(0, 24).Equals("##performancetestruninfo"));
-
                     var json = GetJsonFromHashtag("performancetestruninfo", line);
-
-                    // This is the happy case where we have a performancetestruninfo json object
-                    if (json != null)
+                    if (json == null)
                     {
-                        var result = TryDeserializePerformanceTestRunJsonObject(json);
-                        if (result != null)
-                        {
-                            run.TestSuite = result.TestSuite;
-                            run.Editor = result.Editor;
-                            run.QualitySettings = result.QualitySettings;
-                            run.ScreenSettings = result.ScreenSettings;
-                            run.BuildSettings = result.BuildSettings;
-                            run.Player = result.Player;
-                            run.Hardware = result.Hardware;
-                            run.Date = result.Date;
-                            // @TODO fix end time, does it matter for now?
-                            run.EndTime = run.Date;
-                        }
+                        continue;
                     }
-                    // Unhappy case where we couldn't find a performancetestruninfo object
-                    // This could be because we have missing metadata for the test run
-                    // In this case, we try to look for a performancetestresult json object
-                    // We should have at least startime metadata  that we can use to correctly
-                    // display the test results on the x-axis of the chart
-                    else
+                    
+                    var result = TryDeserializePerformanceTestRunJsonObject(json);
+                    if (result != null)
                     {
-                        json = GetJsonFromHashtag("performancetestresult", line);
-                        if (json != null)
-                        {
-                            var result = TryDeserializePerformanceTestRunJsonObject(json);
-                            run.Date = result.Date;
-                            // @TODO fix end time, does it matter for now?
-                            run.EndTime = run.Date;
-                        }
+                        run.TestSuite = result.TestSuite;
+                        run.Editor = result.Editor;
+                        run.QualitySettings = result.QualitySettings;
+                        run.ScreenSettings = result.ScreenSettings;
+                        run.BuildSettings = result.BuildSettings;
+                        run.Player = result.Player;
+                        run.Hardware = result.Hardware;
                     }
                 } 
             }
@@ -172,7 +156,7 @@ namespace UnityPerformanceBenchmarkReporter
 
         private string GetJsonFromHashtag(string tag, string line)
         {
-            if (!line.Contains($"##{tag}2:")) return null;
+            if (!line.Contains($"##{tag}")) return null;
             var jsonStart = line.IndexOf('{');
             var openBrackets = 0;
             var stringIndex = jsonStart;

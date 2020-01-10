@@ -179,9 +179,7 @@ namespace UnityPerformanceBenchmarkReporter
                 ResultName = resultName,
                 IsBaseline = isBaseline,
                 TestSuite = runResults.TestSuite,
-                StartTime =
-                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(
-                        runResults.Date),
+                StartTime = DateTime.Parse(runResults.Date),
                 TestResults = testResults,
                 PlayerSystemInfo = runResults.Hardware,
                 EditorVersion = runResults.Editor,

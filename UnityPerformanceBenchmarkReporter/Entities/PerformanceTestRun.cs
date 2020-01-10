@@ -13,8 +13,8 @@ namespace UnityPerformanceBenchmarkReporter.Entities
         public QualitySettings QualitySettings;
         public PlayerSettings Player;
         public string TestSuite;
-        public double Date;
-        public double EndTime;
+        public string Date;
+        public string EndTime;
         public List<PerformanceTestResult> Results  = new List<PerformanceTestResult>();
     }
 
