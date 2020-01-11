@@ -29,12 +29,12 @@ namespace UnityPerformanceBenchmarkReporter
                     State = (int) TestState.Success,
                     SampleGroupResults = new List<SampleGroupResult>()
                 };
-                foreach (var sampleGroup in mergedTestExecutions[testName])
+                foreach (SampleGroup sampleGroup in mergedTestExecutions[testName])
                 {
                     var sampleGroupResult = new SampleGroupResult
                     {
                         SampleGroupName = sampleGroup.Name,
-                        // SampleUnit = sampleGroup.Definition.SampleUnit.ToString(),
+                        SampleUnit = sampleGroup.Unit.ToString(),
                         IncreaseIsBetter = sampleGroup.IncreaseIsBetter,
                         // Threshold = sampleGroup.Definition.Threshold,
                         // AggregationType = sampleGroup.Definition.AggregationType.ToString(),
@@ -47,7 +47,7 @@ namespace UnityPerformanceBenchmarkReporter
                         PercentileValue = sampleGroup.PercentileValue,
                         Sum = sampleGroup.Sum,
                         Zeroes = sampleGroup.Zeroes,
-                        SampleCount = sampleGroup.SampleCount,
+                        SampleCount = sampleGroup.Samples.Count,
                         BaselineValue = -1,
                         AggregatedValue = GetAggregatedSampleValue(sampleGroup)
                     };

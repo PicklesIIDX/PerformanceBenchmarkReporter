@@ -15,10 +15,11 @@ namespace UnityPerformanceBenchmarkReporter.Entities
         public double PercentileValue;
         public double Sum;
         public int Zeroes;
-        public int SampleCount;
 
         public string Name;
         public bool IncreaseIsBetter;
+
+        public SampleUnit Unit;
         // public SampleGroupDefinition Definition;
     }
 

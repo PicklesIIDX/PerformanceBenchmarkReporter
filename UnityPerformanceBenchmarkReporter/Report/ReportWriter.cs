@@ -819,7 +819,7 @@ namespace UnityPerformanceBenchmarkReporter.Report
 
 		private string GetSampleUnit(List<TestResult> resultsForThisTest, string sampleGroupName)
 		{
-			var sampleUnit = "";
+			var sampleUnit = "n/a";
 			foreach (TestResult testResult in resultsForThisTest)
 			{
 				if (testResult == null)
@@ -833,7 +833,7 @@ namespace UnityPerformanceBenchmarkReporter.Report
 						.First(sg => ScrubStringForSafeForVariableUse(sg.SampleGroupName) == sampleGroupName).SampleUnit;
 					if (sampleUnit == null)
 					{
-						sampleUnit = "";
+						sampleUnit = "n/a";
 					}
 					break;
 				}

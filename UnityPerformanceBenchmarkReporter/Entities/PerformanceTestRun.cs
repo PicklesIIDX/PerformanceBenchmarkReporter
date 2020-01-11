@@ -99,5 +99,6 @@ namespace UnityPerformanceBenchmarkReporter.Entities
         public bool GraphicsJobs;
         public string AndroidMinimumSdkVersion;
         public List<string> EnabledXrTargets;
+        public string Symbols;
     }
 }
